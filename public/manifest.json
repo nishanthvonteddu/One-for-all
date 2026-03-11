@@ -1,10 +1,10 @@
 {
-  "short_name": "One For All",
-  "name": "One For All",
+  "short_name": "YOM",
+  "name": "YOM — One For All",
   "icons": [
     {
       "src": "/icon-192x192.png",
-      "type": "image/ico",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
@@ -21,6 +21,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#000000"
+  "theme_color": "#06101f",
+  "background_color": "#06101f"
 }
