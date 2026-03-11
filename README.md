@@ -1,6 +1,6 @@
 # YOM — One For All
 
-**YOM** is a privacy-first, local-only AI chat application. No accounts, no database, no data leaving your machine. Just you and your chosen AI model.
+**One For All** is a privacy-first, local-only AI chat application. No accounts, no database, no data leaving your machine. Just you and your chosen AI model. 
 
 ![One For All UI]
 ![alt text](image/ss.png)
