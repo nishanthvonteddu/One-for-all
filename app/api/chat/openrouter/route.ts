@@ -9,14 +9,13 @@ export const runtime: ServerRuntime = "edge"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { chatSettings, messages } = json as {
+  const { chatSettings, messages, profile } = json as {
     chatSettings: ChatSettings
     messages: any[]
+    profile: any
   }
 
   try {
-    const profile = await getServerProfile()
-
     checkApiKey(profile.openrouter_api_key, "OpenRouter")
 
     const openai = new OpenAI({

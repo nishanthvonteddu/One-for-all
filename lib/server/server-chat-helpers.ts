@@ -4,33 +4,19 @@ import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 
 export async function getServerProfile() {
-  const cookieStore = cookies()
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value
-        }
-      }
-    }
-  )
-
-  const user = (await supabase.auth.getUser()).data.user
-  if (!user) {
-    throw new Error("User not found")
-  }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("user_id", user.id)
-    .single()
-
-  if (!profile) {
-    throw new Error("Profile not found")
-  }
+  const profile = {
+    id: "local_profile",
+    user_id: "local",
+    has_onboarded: true,
+    image_url: "",
+    image_path: "",
+    profile_context: "",
+    display_name: "Local User",
+    bio: "",
+    theme: "dark",
+    updated_at: new Date().toISOString(),
+    created_at: new Date().toISOString()
+  } as unknown as Tables<"profiles">
 
   const profileWithKeys = addApiKeysToProfile(profile)
 

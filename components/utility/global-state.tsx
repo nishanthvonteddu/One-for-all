@@ -153,47 +153,27 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
   }, [])
 
   const fetchStartingData = async () => {
-    const session = (await supabase.auth.getSession()).data.session
-
-    if (session) {
-      const user = session.user
-
-      const profile = await getProfileByUserId(user.id)
+    const localProfileData = localStorage.getItem("local_profile")
+    if (localProfileData) {
+      const profile = JSON.parse(localProfileData)
       setProfile(profile)
-
-      if (!profile.has_onboarded) {
-        return router.push("/setup")
-      }
-
-      const workspaces = await getWorkspacesByUserId(user.id)
-      setWorkspaces(workspaces)
-
-      for (const workspace of workspaces) {
-        let workspaceImageUrl = ""
-
-        if (workspace.image_path) {
-          workspaceImageUrl =
-            (await getWorkspaceImageFromStorage(workspace.image_path)) || ""
-        }
-
-        if (workspaceImageUrl) {
-          const response = await fetch(workspaceImageUrl)
-          const blob = await response.blob()
-          const base64 = await convertBlobToBase64(blob)
-
-          setWorkspaceImages(prev => [
-            ...prev,
-            {
-              workspaceId: workspace.id,
-              path: workspace.image_path,
-              base64: base64,
-              url: workspaceImageUrl
-            }
-          ])
-        }
-      }
-
       return profile
+    } else {
+      const mockProfile = {
+        id: "local_profile",
+        user_id: "local",
+        has_onboarded: true,
+        image_url: "",
+        image_path: "",
+        profile_context: "",
+        display_name: "Local User",
+        bio: "",
+        theme: "dark",
+        updated_at: new Date().toISOString(),
+        created_at: new Date().toISOString()
+      } as unknown as Tables<"profiles">
+      setProfile(mockProfile)
+      return mockProfile
     }
   }
 

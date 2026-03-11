@@ -6,14 +6,13 @@ export const runtime = "edge"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { chatSettings, messages } = json as {
+  const { chatSettings, messages, profile } = json as {
     chatSettings: ChatSettings
     messages: any[]
+    profile: any
   }
 
   try {
-    const profile = await getServerProfile()
-
     checkApiKey(profile.google_gemini_api_key, "Google")
 
     const genAI = new GoogleGenerativeAI(profile.google_gemini_api_key || "")

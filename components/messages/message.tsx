@@ -182,8 +182,8 @@ export const Message: FC<MessageProps> = ({
   return (
     <div
       className={cn(
-        "flex w-full justify-center",
-        message.role === "user" ? "" : "bg-secondary"
+        "flex w-full justify-center border-b border-white/5",
+        message.role === "user" ? "" : "bg-black/20 backdrop-blur-md"
       )}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

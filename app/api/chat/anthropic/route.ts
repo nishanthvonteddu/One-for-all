@@ -10,14 +10,13 @@ export const runtime = "edge"
 
 export async function POST(request: NextRequest) {
   const json = await request.json()
-  const { chatSettings, messages } = json as {
+  const { chatSettings, messages, profile } = json as {
     chatSettings: ChatSettings
     messages: any[]
+    profile: any
   }
 
   try {
-    const profile = await getServerProfile()
-
     checkApiKey(profile.anthropic_api_key, "Anthropic")
 
     let ANTHROPIC_FORMATTED_MESSAGES: any = messages.slice(1)

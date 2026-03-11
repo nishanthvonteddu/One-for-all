@@ -10,26 +10,15 @@ export const runtime: ServerRuntime = "edge"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { chatSettings, messages, customModelId } = json as {
+  const { chatSettings, messages, customModel } = json as {
     chatSettings: ChatSettings
     messages: any[]
-    customModelId: string
+    customModel: any
   }
 
   try {
-    const supabaseAdmin = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
-
-    const { data: customModel, error } = await supabaseAdmin
-      .from("models")
-      .select("*")
-      .eq("id", customModelId)
-      .single()
-
     if (!customModel) {
-      throw new Error(error.message)
+      throw new Error("Custom model details not provided in request")
     }
 
     const custom = new OpenAI({

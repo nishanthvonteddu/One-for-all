@@ -73,7 +73,8 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
 
       <div
         className={cn(
-          "duration-200 dark:border-none " + (showSidebar ? "border-r-2" : "")
+          "duration-200 border-r border-black/5 dark:border-white/5 bg-white/5 dark:bg-black/40 backdrop-blur-sm " +
+            (showSidebar ? "" : "hidden sm:block")
         )}
         style={{
           // Sidebar
@@ -99,7 +100,7 @@ export const Dashboard: FC<DashboardProps> = ({ children }) => {
       </div>
 
       <div
-        className="bg-muted/50 relative flex w-screen min-w-[90%] grow flex-col sm:min-w-fit"
+        className="relative flex w-[100vw] min-w-[90%] grow flex-col bg-transparent sm:w-[calc(100vw-350px)] sm:min-w-fit"
         onDrop={onFileDrop}
         onDragOver={onDragOver}
         onDragEnter={handleDragEnter}

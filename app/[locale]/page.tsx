@@ -1,27 +1,33 @@
 "use client"
 
-import { ChatbotUISVG } from "@/components/icons/chatbotui-svg"
 import { IconArrowRight } from "@tabler/icons-react"
-import { useTheme } from "next-themes"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function HomePage() {
-  const { theme } = useTheme()
-
   return (
-    <div className="flex size-full flex-col items-center justify-center">
-      <div>
-        <ChatbotUISVG theme={theme === "dark" ? "dark" : "light"} scale={0.3} />
+    <div className="flex size-full flex-col items-center justify-center gap-6">
+      {/* Glass card */}
+      <div className="flex flex-col items-center gap-3 rounded-3xl border border-blue-400/20 bg-white/[0.04] px-14 py-12 shadow-2xl backdrop-blur-md">
+        <Image
+          src="/yom-logo.png"
+          alt="YOM Logo"
+          width={120}
+          height={120}
+          className="object-contain"
+        />
+
+        <div className="text-4xl font-bold tracking-wide text-blue-100/90">
+          One For All
+        </div>
       </div>
 
-      <div className="mt-2 text-4xl font-bold">Chatbot UI</div>
-
       <Link
-        className="mt-4 flex w-[200px] items-center justify-center rounded-md bg-blue-500 p-2 font-semibold"
-        href="/login"
+        className="flex items-center gap-2 rounded-xl border border-blue-500/40 bg-blue-600/20 px-8 py-3 text-sm font-semibold tracking-wider text-blue-200 backdrop-blur-sm transition-all duration-200 hover:border-blue-400/60 hover:bg-blue-500/30 hover:text-white"
+        href="/local/chat"
       >
         Start Chatting
-        <IconArrowRight className="ml-1" size={20} />
+        <IconArrowRight size={16} />
       </Link>
     </div>
   )

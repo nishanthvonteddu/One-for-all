@@ -8,11 +8,11 @@ export const runtime = "edge"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { chatSettings, messages } = json as ChatAPIPayload
+  const { chatSettings, messages, profile } = json as ChatAPIPayload & {
+    profile: any
+  }
 
   try {
-    const profile = await getServerProfile()
-
     checkApiKey(profile.azure_openai_api_key, "Azure OpenAI")
 
     const ENDPOINT = profile.azure_openai_endpoint

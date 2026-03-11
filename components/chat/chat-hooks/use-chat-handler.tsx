@@ -339,46 +339,29 @@ export const useChatHandler = () => {
       }
 
       if (!currentChat) {
-        currentChat = await handleCreateChat(
-          chatSettings!,
-          profile!,
-          selectedWorkspace!,
-          messageContent,
-          selectedAssistant!,
-          newMessageFiles,
-          setSelectedChat,
-          setChats,
-          setChatFiles
-        )
-      } else {
-        const updatedChat = await updateChat(currentChat.id, {
+        currentChat = {
+          id: "temp-chat-id",
+          user_id: profile!.id,
+          workspace_id: selectedWorkspace!.id,
+          assistant_id: selectedAssistant?.id || null,
+          context_length: chatSettings!.contextLength,
+          include_profile_context: chatSettings!.includeProfileContext,
+          include_workspace_instructions:
+            chatSettings!.includeWorkspaceInstructions,
+          model: chatSettings!.model,
+          name: "Chat",
+          prompt: chatSettings!.prompt,
+          temperature: chatSettings!.temperature,
+          embeddings_provider: chatSettings!.embeddingsProvider,
+          folder_id: null,
+          sharing: "private",
+          created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
-        })
-
-        setChats(prevChats => {
-          const updatedChats = prevChats.map(prevChat =>
-            prevChat.id === updatedChat.id ? updatedChat : prevChat
-          )
-
-          return updatedChats
-        })
+        }
+        setSelectedChat(currentChat)
       }
 
-      await handleCreateMessages(
-        chatMessages,
-        currentChat,
-        profile!,
-        modelData!,
-        messageContent,
-        generatedText,
-        newMessageImages,
-        isRegeneration,
-        retrievedFileItems,
-        setChatMessages,
-        setChatFileItems,
-        setChatImages,
-        selectedAssistant
-      )
+      // Removed handleCreateMessages database save for ephemeral chat
 
       setIsGenerating(false)
       setFirstTokenReceived(false)

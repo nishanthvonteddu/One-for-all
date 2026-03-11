@@ -127,22 +127,12 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
 
   const handleSave = async () => {
     if (!profile) return
-    let profileImageUrl = profile.image_url
-    let profileImagePath = ""
 
-    if (profileImageFile) {
-      const { path, url } = await uploadProfileImage(profile, profileImageFile)
-      profileImageUrl = url ?? profileImageUrl
-      profileImagePath = path
-    }
-
-    const updatedProfile = await updateProfile(profile.id, {
+    const updatedProfile = {
       ...profile,
       display_name: displayName,
       username,
       profile_context: profileInstructions,
-      image_url: profileImageUrl,
-      image_path: profileImagePath,
       openai_api_key: openaiAPIKey,
       openai_organization_id: openaiOrgID,
       anthropic_api_key: anthropicAPIKey,
@@ -150,7 +140,7 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       mistral_api_key: mistralAPIKey,
       groq_api_key: groqAPIKey,
       perplexity_api_key: perplexityAPIKey,
-      use_azure_openai: useAzureOpenai,
+      use_azure_openai: useAzureOpenai || false,
       azure_openai_api_key: azureOpenaiAPIKey,
       azure_openai_endpoint: azureOpenaiEndpoint,
       azure_openai_35_turbo_id: azureOpenai35TurboID,
@@ -158,11 +148,12 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
       azure_openai_45_vision_id: azureOpenai45VisionID,
       azure_openai_embeddings_id: azureEmbeddingsID,
       openrouter_api_key: openrouterAPIKey
-    })
+    }
 
+    localStorage.setItem("local_profile", JSON.stringify(updatedProfile))
     setProfile(updatedProfile)
 
-    toast.success("Profile updated!")
+    toast.success("Profile properly stored locally!")
 
     const providers = [
       "openai",
@@ -733,9 +724,9 @@ export const ProfileSettings: FC<ProfileSettingsProps> = ({}) => {
 
             <WithTooltip
               display={
-                <div>
-                  Download Chatbot UI 1.0 data as JSON. Import coming soon!
-                </div>
+                <Label className="text-sm font-light">
+                  Download One For All 1.0 data as JSON. Import coming soon!
+                </Label>
               }
               trigger={
                 <IconFileDownload
