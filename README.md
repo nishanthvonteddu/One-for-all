@@ -149,7 +149,3 @@ image/                 → Source logo assets
 - **API key flow** — entered in the UI → stored in `localStorage` → forwarded server-side only as request headers through proxy routes in `app/api/chat/`.
 
 ---
-
-## License
-
-MIT
